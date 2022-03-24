@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema({
     }
 })
 
-userSchema.statics.build = (attrs: UserAttrs) => {
+userSchema.statics.build = (attrs: UserAttrs): UserDoc => {
     return new User(attrs);
 }
 
