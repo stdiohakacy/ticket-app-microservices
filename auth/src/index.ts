@@ -6,7 +6,8 @@ import { signUpRouter } from './routes/sign-up';
 import { signOutRouter } from './routes/sign-out';
 import { errorHandler} from './middlewares/error-handler'
 import 'express-async-errors';
-import { NotFoundError } from './errors/not-found-error';
+// import { NotFoundError } from './errors/not-found-error';
+import mongoose from 'mongoose';
 
 const app = express();
 app.use(json());
@@ -16,10 +17,19 @@ app.use(signUpRouter);
 app.use(signOutRouter);
 app.use(errorHandler);
 
-app.all("*", async(req, res) => {
-    throw new NotFoundError()
-})
+// app.all("*", async(req, res) => {
+//     throw new NotFoundError()
+// })
 
-app.listen(3000, () => {
-    console.log(`Listening on port 3000!`);
-})
+const start = async () => {
+    try {
+        await mongoose.connect('mongodb://auth-mongo-srv:27017/auth')
+    } catch (error) {
+        console.log(error);        
+    }
+    app.listen(3000, () => {
+        console.log(`Listening on port 3000!`);
+    })
+}
+
+start();
