@@ -7,7 +7,7 @@ let mongo: MongoMemoryServer
 
 declare global {
     var signIn: () => Promise<string[]>;
-}
+  }
 
 // declare global {
 //     namespace NodeJS {
@@ -44,5 +44,6 @@ global.signIn = async () => {
         .send({ email, password })
         .expect(201)
 
-    return response.get("Set-Cookie")
+    const cookie = response.get("Set-Cookie")
+    return cookie;
 }
