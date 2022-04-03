@@ -13,8 +13,8 @@ spec:
         app: auth
     spec:
       containers:
-      - name: auth
-        image: li123812i38/ticketing-auth
+        - name: auth
+          image: li123812i38/ticketing-auth
 ---
 apiVersion: v1
 kind: Service
