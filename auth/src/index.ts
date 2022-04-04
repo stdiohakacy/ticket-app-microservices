@@ -7,6 +7,7 @@ import { signOutRouter } from "./routes/sign-out";
 import { signUpRouter } from "./routes/sign-up";
 import { errorHandler } from './middlewares/error-handler'
 import mongoose from 'mongoose';
+import cookieSession from "cookie-session";
 
 const app = express();
 app.use(json());
@@ -15,6 +16,11 @@ app.use(signInRouter)
 app.use(signOutRouter)
 app.use(signUpRouter)
 app.use(errorHandler);
+app.set("trust proxy", true);
+app.use(cookieSession({
+  signed: false,
+  secure: true
+}))
 
 const start = async () => {
   try {
