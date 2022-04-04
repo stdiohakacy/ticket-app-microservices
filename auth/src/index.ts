@@ -17,10 +17,7 @@ app.use(signOutRouter)
 app.use(signUpRouter)
 app.use(errorHandler);
 app.set("trust proxy", true);
-app.use(cookieSession({
-  signed: false,
-  secure: true
-}))
+app.use(cookieSession({ signed: false, secure: true }))
 
 const start = async () => {
   try {
