@@ -20,6 +20,9 @@ app.set("trust proxy", true);
 app.use(cookieSession({ signed: false, secure: true }))
 
 const start = async () => {
+  if(!process.env.JWT_KEY) {
+    throw new Error('JWT KEY must be defined!');
+  }
   try {
     await mongoose.connect("mongodb://auth-mongo-srv:27017/auth");
     console.log("MongoDb connected!");

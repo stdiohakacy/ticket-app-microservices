@@ -5,13 +5,13 @@ deploy:
     manifests:
       - ./infra/k8s/*
 build:
-  # local:
-  #   push: false
-  googleCloudBuild:
-    projectId: spry-spanner-345015
+  local:
+    push: false
+  # googleCloudBuild:
+  #   projectId: spry-spanner-345015
   artifacts:
-    # - image: li123812i38/ticketing-auth
-    - image: gcr.io/spry-spanner-345015/ticketing-auth
+    - image: li123812i38/ticketing-auth
+    # - image: gcr.io/spry-spanner-345015/ticketing-auth
       context: auth
       docker:
         dockerfile: Dockerfile
