@@ -40,3 +40,12 @@ it("disallows duplicate email", async () => {
         .send({ email: "admin@gmail.com", password: "123123" })
         .expect(400);
 })
+
+it("set a cookie after successful set up", async () => {
+    const response = await request(app)
+        .post("/api/users/sign-up")
+        .send({ email: "admin@gmail.com", password: "123123" })
+        .expect(201);
+
+    expect(response.get("Set-Cookie")).toBeDefined();
+})
