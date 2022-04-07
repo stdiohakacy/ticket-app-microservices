@@ -15,7 +15,6 @@ it("returns a 400 with an invalid email", async () => {
         .expect(400);
 })
 
-
 it("returns a 400 with missing email or password", async () => {
     await request(app)
         .post("/api/users/sign-up")
