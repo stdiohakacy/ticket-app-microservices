@@ -19,3 +19,12 @@ build:
         manual:
           - src: "src/**/*.ts"
             dest: .
+    - image: li123812i38/ticketing-client
+    # - image: gcr.io/spry-spanner-345015/ticketing-auth
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "**/*.js"
+            dest: .
