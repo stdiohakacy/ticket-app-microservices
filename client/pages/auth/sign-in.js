@@ -37,7 +37,7 @@ export default () => {
                 />
             </div>
             {errors}
-            <button className="btn btn-primary">Sign up</button>
+            <button className="btn btn-primary">Sign in</button>
         </form>
     )
 }
