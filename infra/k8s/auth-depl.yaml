@@ -17,6 +17,8 @@ spec:
           image: li123812i38/ticketing-auth
           # image: gcr.io/spry-spanner-345015/ticketing-auth
           env:
+            - name: MONGO_URI
+              value: "mongodb://auth-mongo-srv:27017/auth"
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:
