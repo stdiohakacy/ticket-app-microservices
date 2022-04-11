@@ -1,5 +1,6 @@
 import {
     currentUser,
+    NotAuthorizedError,
     NotFoundError,
     requireAuth
 } from '@ticketing-dev-org/common';
@@ -16,6 +17,7 @@ router.put(
         const ticket = await Ticket.findById(req.params.id);
 
         if (!ticket) throw new NotFoundError();
+        if (ticket.userId !== req.currentUser!.id) throw new NotAuthorizedError();
 
         res.send(ticket);
     }
