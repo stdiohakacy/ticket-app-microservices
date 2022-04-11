@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 
 let mongod: any
 declare global {
-    var signIn: () => Promise<[string]>;
+    var signIn: () => [string];
 }
 
 beforeAll(async () => {
@@ -22,7 +22,7 @@ beforeEach(async () => {
     }
 })
 
-global.signIn = async () => {
+global.signIn = () => {
     // Build a JWT payload.  { id, email }
     const payload = {
         id: '1lk24j124l',
