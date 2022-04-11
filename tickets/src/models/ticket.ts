@@ -13,7 +13,7 @@ interface ITicketDoc extends mongoose.Document {
 }
 
 interface ITicketModel extends mongoose.Model<ITicketDoc> {
-    build(attrs: ITicketAttrs): ITicketAttrs;
+    build(attrs: ITicketAttrs): ITicketDoc;
 }
 
 const ticketSchema = new mongoose.Schema({
@@ -29,9 +29,8 @@ const ticketSchema = new mongoose.Schema({
     }
 });
 
-ticketSchema.statics.build = (attrs: ITicketAttrs) => {
-    return new Ticket(attrs);
-}
+ticketSchema.statics.build = (attrs: ITicketAttrs) => new Ticket(attrs);
 
-const Ticket = mongoose.model<ITicketDoc, ITicketModel>("Ticket", ticketSchema);
-export { Ticket }
+const Ticket = mongoose.model<ITicketDoc, ITicketModel>('Ticket', ticketSchema);
+
+export { Ticket };

@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import { currentUser, requireAuth, validateRequest } from '@ticketing-dev-org/common';
 const router = express.Router();
 import { body } from 'express-validator'
+import { Ticket } from '../models/ticket';
 
 router.post(
     "/api/tickets", 
@@ -12,8 +13,12 @@ router.post(
         body("price").isFloat({ gt: 0 }).withMessage("Price must be greater than 0"),
     ],
     validateRequest,
-    (req: Request, res: Response) => {
-        res.sendStatus(200);
+    async (req: Request, res: Response) => {
+        const { title, price } = req.body
+        const ticket = Ticket.build({ title, price, userId: req.currentUser!.id });
+        await ticket.save();
+
+        res.status(201).send(ticket);
     }
 )
 
