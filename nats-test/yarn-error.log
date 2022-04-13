@@ -1,0 +1,38 @@
+Arguments: 
+  /opt/homebrew/Cellar/node/16.9.1/bin/node /opt/homebrew/bin/yarn add node-nats-streaming ts-node-dev typescript @types/node
+
+PATH: 
+  /Users/duynguyen/Desktop/google-cloud-sdk/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:/opt/homebrew/bin
+
+Yarn version: 
+  1.22.11
+
+Node version: 
+  16.9.1
+
+Platform: 
+  darwin arm64
+
+Trace: 
+  Error: getaddrinfo ENOTFOUND registry.yarnpkg.com
+      at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:71:26)
+
+npm manifest: 
+  {
+    "name": "nats-test",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
