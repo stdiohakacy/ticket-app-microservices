@@ -1,7 +1,5 @@
-import { Publisher } from "./base-publisher";
-import { Subjects } from "./subjects";
-import { ITicketCreatedEvent } from "./ticket-created-event";
-
+import { Publisher } from "@ticketing-dev-org/common";
+import { ITicketCreatedEvent, Subjects } from '@ticketing-dev-org/common'
 export class TicketCreatedPublisher extends Publisher<ITicketCreatedEvent> {
     subject: Subjects.TicketCreated = Subjects.TicketCreated;
 }
