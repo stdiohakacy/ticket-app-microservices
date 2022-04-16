@@ -3,6 +3,8 @@ import { currentUser, requireAuth, validateRequest } from '@ticketing-dev-org/co
 const router = express.Router();
 import { body } from 'express-validator'
 import { Ticket } from '../models/ticket';
+import { TicketCreatedPublisher } from '../events/publishers/ticket-created-publisher';
+import { natsWrapper } from '../nat-wrappers';
 
 router.post(
     "/api/tickets", 
@@ -15,8 +17,13 @@ router.post(
     validateRequest,
     async (req: Request, res: Response) => {
         const { title, price } = req.body
-        const ticket = Ticket.build({ title, price, userId: req.currentUser!.id });
-        const data = await ticket.save();
+        const ticketBuilded = Ticket.build({ title, price, userId: req.currentUser!.id });
+        const ticket = await ticketBuilded.save();
+
+        if(ticket) {
+            const { id, title, price, userId } = ticket
+            new TicketCreatedPublisher(natsWrapper.client).publish({ id, title, price, userId });
+        }
 
         res.status(201).send(ticket);
     }
