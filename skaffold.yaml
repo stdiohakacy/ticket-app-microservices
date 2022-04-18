@@ -20,7 +20,7 @@ build:
           - src: "src/**/*.ts"
             dest: .
     - image: li123812i38/ticketing-client
-    # - image: gcr.io/spry-spanner-345015/ticketing-auth
+    # - image: gcr.io/spry-spanner-345015/ticketing-client
       context: client
       docker:
         dockerfile: Dockerfile
@@ -29,8 +29,17 @@ build:
           - src: "**/*.js"
             dest: .
     - image: li123812i38/ticketing-tickets
-    # - image: gcr.io/spry-spanner-345015/ticketing-auth
+    # - image: gcr.io/spry-spanner-345015/ticketing-tickets
       context: tickets
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+    - image: li123812i38/ticketing-orders
+    # - image: gcr.io/spry-spanner-345015/ticketing-orders
+      context: orders
       docker:
         dockerfile: Dockerfile
       sync:
