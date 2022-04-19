@@ -48,7 +48,7 @@ router.post(
 
         await order.save();
         // Publish an event saying that an order was created
-    return res.send({})
+        return res.status(201).send(order)
 })
 
 export { router as newOrderRouter };
