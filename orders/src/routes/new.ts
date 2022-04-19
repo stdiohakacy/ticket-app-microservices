@@ -1,4 +1,4 @@
-import { BadRequestError, NotFoundError, requireAuth, validateRequest } from '@ticketing-dev-org/common';
+import { BadRequestError, currentUser, NotFoundError, requireAuth, validateRequest } from '@ticketing-dev-org/common';
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import mongoose from 'mongoose';
@@ -8,7 +8,8 @@ const router = express.Router();
 const EXPIRATION_WINDOW_SECONDS = 15 * 60;
 
 router.post(
-    "/api/orders", 
+    "/api/orders",
+    currentUser, 
     requireAuth, 
     [
         body("ticketId")
