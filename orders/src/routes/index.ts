@@ -1,8 +1,15 @@
-import express, { Request, Response} from 'express';
+import express, { Request, Response } from 'express';
+import { currentUser, requireAuth } from '@ticketing-dev-org/common';
+import { Order } from '../models/order';
+
 const router = express.Router();
 
-router.get("/api/orders", (req: Request, res: Response) => {
-    return res.send({})
-})
+router.get('/api/orders', currentUser, requireAuth, async (req: Request, res: Response) => {
+    const orders = await Order.find({
+        userId: req.currentUser!.id,
+    }).populate('ticket');
 
-export { router as indexOrderRouter }
+    res.send(orders);
+});
+
+export { router as indexOrderRouter };
