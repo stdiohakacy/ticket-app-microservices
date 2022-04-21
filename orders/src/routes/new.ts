@@ -2,8 +2,10 @@ import { BadRequestError, currentUser, NotFoundError, requireAuth, validateReque
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import mongoose from 'mongoose';
+import { OrderCreatedPublisher } from '../events/publishers/order-created-publisher';
 import { Order, OrderStatus } from '../models/order';
 import { Ticket } from '../models/ticket';
+import { natsWrapper } from '../nats-wrapper';
 const router = express.Router();
 const EXPIRATION_WINDOW_SECONDS = 15 * 60;
 
@@ -30,7 +32,7 @@ router.post(
         
         // Make sure that this ticket is not already reserved
         const isReserved  = await ticket.isReserved();
-        if(isReserved) {
+        if (isReserved) {
             throw new BadRequestError("Ticket is already reserved!");
         }
         
@@ -45,6 +47,15 @@ router.post(
             userId: req.currentUser!.id,
             status: OrderStatus.Created,
         })
+        
+        // Publish an event saying that an order was created
+        new OrderCreatedPublisher(natsWrapper.client).publish({
+            id: order.id,
+            status: order.status,
+            userId: order.userId,
+            expiresAt: order.expiresAt.toISOString(),
+            ticket: { id: ticket.id, price: ticket.price }
+        });
 
         await order.save();
         // Publish an event saying that an order was created
