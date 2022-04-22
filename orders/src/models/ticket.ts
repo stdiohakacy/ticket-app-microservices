@@ -40,16 +40,19 @@ const ticketSchema = new mongoose.Schema(
 );
 
 ticketSchema.statics.build = (attrs: ITicketAttrs) => {
-    const { id, title, price } = attrs;
-    new Ticket({ _id: id, title, price });
-}
+    return new Ticket({
+        _id: attrs.id,
+        title: attrs.title,
+        price: attrs.price,
+    });
+};
 
 ticketSchema.methods.isReserved = async function () {
     // this === the ticket document that we just called 'isReserved' on
     const existingOrder = await Order.findOne({
-        ticket: this,
+        ticket: this as any,
         status: {
-        $in: [ OrderStatus.Created, OrderStatus.AwaitingPayment, OrderStatus.Completed ],
+            $in: [ OrderStatus.Created, OrderStatus.AwaitingPayment, OrderStatus.Completed ],
         },
     });
 
