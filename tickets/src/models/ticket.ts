@@ -30,8 +30,9 @@ const ticketSchema = new mongoose.Schema({
     }
 });
 
-ticketSchema.set("versionKey", "version")
+ticketSchema.set("versionKey", "version");
 ticketSchema.plugin(updateIfCurrentPlugin);
+
 ticketSchema.statics.build = (attrs: ITicketAttrs) => new Ticket(attrs);
 
 const Ticket = mongoose.model<ITicketDoc, ITicketModel>('Ticket', ticketSchema);
