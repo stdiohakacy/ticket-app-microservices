@@ -532,9 +532,9 @@
     "@sinonjs/commons" "^1.7.0"
 
 "@ticketing-dev-org/common@^1.0.15":
-  "integrity" "sha512-zL6scb3HODh/A4lqnbRU4Gbi/iklSe2emlhXUBk3SPYljqcEgPDLlHrQL96j7bTj0N6/i/FUEtqBO61aqVI0Lg=="
-  "resolved" "https://registry.npmjs.org/@ticketing-dev-org/common/-/common-1.0.23.tgz"
-  "version" "1.0.23"
+  "integrity" "sha512-gVd8YaTsBwRA0PFTXK/H8nC0QV0mqecg6dzlzUst3/GOmBEv/nL/pM3MW08wCFIPkn8jsiAsvqBT//XhmuqABg=="
+  "resolved" "https://registry.npmjs.org/@ticketing-dev-org/common/-/common-1.0.24.tgz"
+  "version" "1.0.24"
   dependencies:
     "@types/cookie-session" "^2.0.44"
     "@types/express" "^4.17.13"
