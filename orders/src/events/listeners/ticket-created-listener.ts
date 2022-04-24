@@ -1,14 +1,15 @@
-import { ITicketCreatedEvent, Listener, Subjects } from "@ticketing-dev-org/common";
-import { Message } from "node-nats-streaming";
-import { Ticket } from "../../models/ticket";
-import { queueGroupName } from "./queue-group-name";
+import { Message } from 'node-nats-streaming';
+import { Subjects, Listener, ITicketCreatedEvent } from '@ticketing-dev-org/common';
+import { Ticket } from '../../models/ticket';
+import { queueGroupName } from './queue-group-name';
 
 export class TicketCreatedListener extends Listener<ITicketCreatedEvent> {
     subject: Subjects.TicketCreated = Subjects.TicketCreated;
-    queueGroupName: string = queueGroupName;
+    queueGroupName = queueGroupName;
 
-    async onMessage(data: ITicketCreatedEvent["data"], msg: Message) {
+    async onMessage(data: ITicketCreatedEvent['data'], msg: Message) {
         const { id, title, price } = data;
+
         const ticket = Ticket.build({ id, title, price });
         await ticket.save();
 

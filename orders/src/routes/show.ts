@@ -1,18 +1,28 @@
-import { currentUser, NotAuthorizedError, NotFoundError, requireAuth } from '@ticketing-dev-org/common';
-import express, { Request, Response} from 'express';
+import {
+    currentUser,
+    NotAuthorizedError, NotFoundError, requireAuth
+} from '@ticketing-dev-org/common';
+import express, { Request, Response } from 'express';
 import { Order } from '../models/order';
+
 const router = express.Router();
 
-router.get("/api/orders/:id", currentUser, requireAuth, async (req: Request, res: Response) => {
-    const order = await Order.findById(req.params.id).populate("ticket");
-    if (!order) {
-        throw new NotFoundError();
-    }
-    if (order.userId !== req.currentUser!.id) {
-        throw new NotAuthorizedError();
-    }
+router.get(
+    '/api/orders/:id',
+    currentUser,
+    requireAuth,
+    async (req: Request, res: Response) => {
+        const order = await Order.findById(req.params.id).populate('ticket');
 
-    res.send(order);
-})
+        if (!order) {
+            throw new NotFoundError();
+        }
+        if (order.userId !== req.currentUser!.id) {
+            throw new NotAuthorizedError();
+        }
 
-export { router as showOrderRouter }
+        res.send(order);
+    }
+);
+
+export { router as showOrderRouter };
