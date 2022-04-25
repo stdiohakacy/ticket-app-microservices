@@ -14,6 +14,10 @@ interface ITicketDoc extends mongoose.Document {
     version: number;
 }
 
+// interface ITicketModel extends mongoose.Model<ITicketDoc> {
+//     build(attrs: ITicketAttrs): ITicketDoc;
+// }
+
 interface ITicketModel extends mongoose.Model<ITicketDoc> {
     build(attrs: ITicketAttrs): ITicketDoc;
 }
@@ -44,9 +48,10 @@ const ticketSchema = new mongoose.Schema({
 ticketSchema.set('versionKey', 'version');
 ticketSchema.plugin(updateIfCurrentPlugin);
 
-ticketSchema.statics.build = (attrs: ITicketAttrs) => {
-return new Ticket(attrs);
-};
+// ticketSchema.statics.build = (attrs: ITicketAttrs) => {
+// return new Ticket(attrs);
+// };
+ticketSchema.statics.build = (attrs: ITicketAttrs) => new Ticket(attrs);
 
 const Ticket = mongoose.model<ITicketDoc, ITicketModel>('Ticket', ticketSchema);
 
