@@ -20,8 +20,8 @@ router.put(
     [
         body('title').not().isEmpty().withMessage('Title is required'),
         body('price')
-        .isFloat({ gt: 0 })
-        .withMessage('Price must be provided and must be greater than 0'),
+            .isFloat({ gt: 0 })
+            .withMessage('Price must be provided and must be greater than 0'),
     ],
     validateRequest,
     async (req: Request, res: Response) => {
@@ -34,9 +34,9 @@ router.put(
         if (ticket.userId !== req.currentUser!.id) {
             throw new NotAuthorizedError();
         }
-
         ticket.set({ title: req.body.title, price: req.body.price });
         await ticket.save();
+
         new TicketUpdatedPublisher(natsWrapper.client).publish({
             id: ticket.id,
             title: ticket.title,
@@ -45,7 +45,7 @@ router.put(
             version: ticket.version,
         });
 
-        res.send(ticket);
+        res.status(200).send(ticket);
     }
 );
 

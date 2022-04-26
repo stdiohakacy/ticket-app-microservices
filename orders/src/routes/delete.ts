@@ -1,17 +1,17 @@
-import express, { Request, Response } from 'express';
 import {
-  requireAuth,
-  NotFoundError,
-  NotAuthorizedError,
+    currentUser,
+    NotAuthorizedError, NotFoundError, requireAuth
 } from '@ticketing-dev-org/common';
-import { Order, OrderStatus } from '../models/order';
+import express, { Request, Response } from 'express';
 import { OrderCancelledPublisher } from '../events/publishers/order-cancelled-publisher';
+import { Order, OrderStatus } from '../models/order';
 import { natsWrapper } from '../nats-wrapper';
 
 const router = express.Router();
 
 router.delete(
     '/api/orders/:id',
+    currentUser,
     requireAuth,
     async (req: Request, res: Response) => {
         const { id } = req.params;
