@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
+// import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 
 interface ITicketAttrs {
     title: string;
@@ -46,12 +46,17 @@ const ticketSchema = new mongoose.Schema({
 });
 
 ticketSchema.set('versionKey', 'version');
-ticketSchema.plugin(updateIfCurrentPlugin);
+// ticketSchema.plugin(updateIfCurrentPlugin);
 
 // ticketSchema.statics.build = (attrs: ITicketAttrs) => {
 // return new Ticket(attrs);
 // };
 ticketSchema.statics.build = (attrs: ITicketAttrs) => new Ticket(attrs);
+
+ticketSchema.pre("save", function(done) {
+    this.$where = { version: this.get('version') - 1 }
+    done();
+})
 
 const Ticket = mongoose.model<ITicketDoc, ITicketModel>('Ticket', ticketSchema);
 
