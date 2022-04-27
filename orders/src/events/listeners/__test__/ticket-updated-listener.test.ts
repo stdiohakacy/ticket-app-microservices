@@ -23,7 +23,7 @@ const setup = async () => {
         version: ticket.version + 1,
         title: "Concert updated",
         price: 1000,
-        userId: "USER-001"
+        userId: "USER-001",
     }
 
     // @ts-ignore

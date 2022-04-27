@@ -39,7 +39,6 @@ it("set the orderId of the ticket", async () => {
     const { listener, ticket, data, msg } = await setup();
     await listener.onMessage(data, msg);
     const updatedTicket = await Ticket.findById(ticket.id);
-    console.log(updatedTicket)
     expect(updatedTicket!.orderId).toEqual(data.id);
 })
 

@@ -523,10 +523,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@ticketing-dev-org/common@^1.0.31":
-  version "1.0.31"
-  resolved "https://registry.yarnpkg.com/@ticketing-dev-org/common/-/common-1.0.31.tgz#53fedca1c22e44382924aaf90ae10657844ee0ea"
-  integrity sha512-vI0wS085Y2O3BOoZkH5O4i2IX5NipKGOs54q0Gcf9Ha2o6rwBmXhhYpGObDw+BZdGrqW1mMGc2WAUbjTX5gpBg==
+"@ticketing-dev-org/common@^1.0.32":
+  version "1.0.32"
+  resolved "https://registry.yarnpkg.com/@ticketing-dev-org/common/-/common-1.0.32.tgz#300084d20afccd4520c415a329e1a9b48a3be446"
+  integrity sha512-M5pCIdeEi1PWxLSouyUXV8RZzcts9nQbkecUS3ITH6xiU8XRmdNUc1XMlv/YiX0qE8Ysr+BoRGVivdOxpSxqsw==
   dependencies:
     "@types/cookie-session" "^2.0.44"
     "@types/express" "^4.17.13"
