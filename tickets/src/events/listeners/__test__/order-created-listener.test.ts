@@ -1,9 +1,9 @@
-import { Message } from 'node-nats-streaming';
 import { IOrderCreatedEvent, OrderStatus } from "@ticketing-dev-org/common";
 import mongoose from "mongoose";
+import { Message } from 'node-nats-streaming';
 import { Ticket } from "../../../models/ticket";
-import { natsWrapper } from "../../../nats-wrapper"
-import { OrderCreatedListener } from "../order-created-listener"
+import { natsWrapper } from "../../../nats-wrapper";
+import { OrderCreatedListener } from "../order-created-listener";
 
 const setup = async () => {
     const listener = new OrderCreatedListener(natsWrapper.client);
@@ -34,6 +34,16 @@ const setup = async () => {
 
     return { listener, ticket, data, msg }; 
 }
+
+it("publishes a ticket updated event", async () => {
+    const { listener, data, msg } = await setup();
+    await listener.onMessage(data, msg);
+    expect(natsWrapper.client.publish).toHaveBeenCalled();
+    const ticketUpdatedData = JSON.parse(
+        (natsWrapper.client.publish as jest.Mock).mock.calls[0][1]
+    );
+    expect(data.id).toEqual(ticketUpdatedData.orderId);
+})
 
 it("set the orderId of the ticket", async () => {
     const { listener, ticket, data, msg } = await setup();

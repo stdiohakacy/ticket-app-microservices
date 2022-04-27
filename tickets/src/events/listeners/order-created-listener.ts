@@ -24,6 +24,7 @@ export class OrderCreatedListener extends Listener<IOrderCreatedEvent> {
             userId: ticket.userId,
             orderId: ticket.orderId,
         })
+
         msg.ack();
     }
 }
