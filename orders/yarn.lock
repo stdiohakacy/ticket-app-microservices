@@ -523,7 +523,7 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@ticketing-dev-org/common@^1.0.32":
+"@ticketing-dev-org/common@^1.0.33":
   "integrity" "sha512-V1zfufZO2v7UYCgMLY/RBHYZKpYYcyZNfnw2GFJE7zoV6dZ+b3Mb15UfblMoQ9AmqH6JLZVzShdkq0/0h8L0zQ=="
   "resolved" "https://registry.npmjs.org/@ticketing-dev-org/common/-/common-1.0.33.tgz"
   "version" "1.0.33"
