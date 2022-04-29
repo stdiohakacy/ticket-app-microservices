@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: orders-depl
+  name: payments-depl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: orders
+      app: payments
   template:
     metadata:
       labels:
-        app: orders
+        app: payments
     spec:
       containers:
-        - name: orders
-          image: li123812i38/ticketing-orders
-          # image: gcr.io/spry-spanner-345015/ticketing-orders
+        - name: payments
+          image: li123812i38/ticketing-payments
+          # image: gcr.io/spry-spanner-345015/ticketing-payments
           env:
             - name: NATS_CLIENT_ID
               valueFrom:
@@ -26,7 +26,7 @@ spec:
             - name: NATS_CLUSTER_ID
               value: ticketing
             - name: MONGO_URI
-              value: "mongodb://orders-mongo-srv:27017/orders"
+              value: "mongodb://payments-mongo-srv:27017/payments"
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:
@@ -36,12 +36,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: orders-srv
+  name: payments-srv
 spec:
   selector:
-    app: orders
+    app: payments
   ports:
-    - name: orders
+    - name: payments
       protocol: TCP
       port: 3000
       targetPort: 3000
