@@ -25,14 +25,6 @@ import {
       });
       await order.save();
 
-      console.log({
-        id: order.id,
-        version: order.version,
-        ticket: {
-          id: order.ticket.id,
-        },
-      });
-      
       await new OrderCancelledPublisher(this.client).publish({
         id: order.id,
         version: order.version,

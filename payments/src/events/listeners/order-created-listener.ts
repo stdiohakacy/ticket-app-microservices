@@ -8,7 +8,6 @@ export class OrderCreatedListener extends Listener<IOrderCreatedEvent> {
   queueGroupName = queueGroupName;
 
   async onMessage(data: IOrderCreatedEvent['data'], msg: Message) {
-    console.log(data);
     const order = Order.build({
       id: data.id,
       price: data.ticket.price,
@@ -16,8 +15,7 @@ export class OrderCreatedListener extends Listener<IOrderCreatedEvent> {
       userId: data.userId,
       version: data.version,
     });
-    const orderCreated = await order.save();
-    console.log(orderCreated);
+    await order.save();
 
     msg.ack();
   }

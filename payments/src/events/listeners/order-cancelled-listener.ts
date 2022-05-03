@@ -11,8 +11,6 @@ export class OrderCancelledListener extends Listener<IOrderCancelledEvent> {
   queueGroupName = queueGroupName;
 
   async onMessage(data: IOrderCancelledEvent['data'], msg: Message) {
-    console.log(data);
-
     const order = await Order.findOne({
       _id: data.id,
       version: data.version - 1,
