@@ -1,18 +1,18 @@
 import {
-  IOrderCancelledEvent,
-  Subjects,
-  Listener,
-  OrderStatus,
+  IOrderCancelledEvent, Listener,
+  OrderStatus, Subjects
 } from '@ticketing-dev-org/common';
 import { Message } from 'node-nats-streaming';
-import { queueGroupName } from './queue-group-name';
 import { Order } from '../../models/order';
+import { queueGroupName } from './queue-group-name';
 
 export class OrderCancelledListener extends Listener<IOrderCancelledEvent> {
   subject: Subjects.OrderCancelled = Subjects.OrderCancelled;
   queueGroupName = queueGroupName;
 
   async onMessage(data: IOrderCancelledEvent['data'], msg: Message) {
+    console.log(data);
+
     const order = await Order.findOne({
       _id: data.id,
       version: data.version - 1,

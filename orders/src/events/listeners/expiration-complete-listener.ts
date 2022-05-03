@@ -1,28 +1,47 @@
-import { IExpirationCompleteEvent, Listener, OrderStatus, Subjects } from "@ticketing-dev-org/common";
-import { Message } from "node-nats-streaming";
-import { Order } from "../../models/order";
-import { OrderCancelledPublisher } from "../publishers/order-cancelled-publisher";
-import { queueGroupName } from "./queue-group-name";
-
-export class ExpirationCompleteListener extends Listener<IExpirationCompleteEvent> {
-    queueGroupName: string = queueGroupName;
+import {
+    Listener,
+    Subjects,
+    IExpirationCompleteEvent,
+    OrderStatus,
+  } from '@ticketing-dev-org/common';
+  import { Message } from 'node-nats-streaming';
+  import { queueGroupName } from './queue-group-name';
+  import { Order } from '../../models/order';
+  import { OrderCancelledPublisher } from '../publishers/order-cancelled-publisher';
+  
+  export class ExpirationCompleteListener extends Listener<IExpirationCompleteEvent> {
+    queueGroupName = queueGroupName;
     subject: Subjects.ExpirationComplete = Subjects.ExpirationComplete;
+  
+    async onMessage(data: IExpirationCompleteEvent['data'], msg: Message) {
+      const order = await Order.findById(data.orderId).populate('ticket');
+  
+      if (!order) {
+        throw new Error('Order not found');
+      }
+  
+      order.set({
+        status: OrderStatus.Cancelled,
+      });
+      await order.save();
 
-    async onMessage(data: IExpirationCompleteEvent["data"], msg: Message) {
-        const order = await Order.findById(data.orderId).populate("ticket");
-        if (!order) {
-            throw new Error("Order not found");
-        }
-
-        order.set({ status: OrderStatus.Cancelled });
-        await order.save();
-
-        new OrderCancelledPublisher(this.client).publish({
-            id: order.id,
-            version: order.version,
-            ticket: { id: order.ticket.id }
-        });
-
-        msg.ack();
+      console.log({
+        id: order.id,
+        version: order.version,
+        ticket: {
+          id: order.ticket.id,
+        },
+      });
+      
+      await new OrderCancelledPublisher(this.client).publish({
+        id: order.id,
+        version: order.version,
+        ticket: {
+          id: order.ticket.id,
+        },
+      });
+  
+      msg.ack();
     }
-}
+  }
+  
