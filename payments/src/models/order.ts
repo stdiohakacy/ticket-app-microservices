@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 import { OrderStatus } from '@ticketing-dev-org/common';
 
-interface OrderAttrs {
+interface IOrderAttrs {
   id: string;
   version: number;
   userId: string;
@@ -10,15 +10,15 @@ interface OrderAttrs {
   status: OrderStatus;
 }
 
-interface OrderDoc extends mongoose.Document {
+interface IOrderDoc extends mongoose.Document {
   version: number;
   userId: string;
   price: number;
   status: OrderStatus;
 }
 
-interface OrderModel extends mongoose.Model<OrderDoc> {
-  build(attrs: OrderAttrs): OrderDoc;
+interface IOrderModel extends mongoose.Model<IOrderDoc> {
+  build(attrs: IOrderAttrs): IOrderDoc;
 }
 
 const orderSchema = new mongoose.Schema(
@@ -41,6 +41,8 @@ const orderSchema = new mongoose.Schema(
       transform(doc, ret) {
         ret.id = ret._id;
         delete ret._id;
+
+        console.log(ret);
       },
     },
   }
@@ -49,9 +51,9 @@ const orderSchema = new mongoose.Schema(
 orderSchema.set('versionKey', 'version');
 orderSchema.plugin(updateIfCurrentPlugin);
 
-orderSchema.statics.build = (attrs: OrderAttrs) => {
+orderSchema.statics.build = (attrs: IOrderAttrs) => {
   return new Order({
-    _id: attrs.id,
+    id: attrs.id,
     version: attrs.version,
     price: attrs.price,
     userId: attrs.userId,
@@ -59,6 +61,6 @@ orderSchema.statics.build = (attrs: OrderAttrs) => {
   });
 };
 
-const Order = mongoose.model<OrderDoc, OrderModel>('Order', orderSchema);
+const Order = mongoose.model<IOrderDoc, IOrderModel>('Order', orderSchema);
 
 export { Order };
