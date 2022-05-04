@@ -5,8 +5,10 @@ import {
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import Stripe from 'stripe';
+import { PaymentCreatedPublisher } from '../events/publishers/payment-created-publisher';
 import { Order } from '../models/order';
 import { Payment } from '../models/payment';
+import { natsWrapper } from '../nats-wrapper';
 const stripe = new Stripe(process.env.STRIPE_KEY!, { apiVersion: "2020-08-27" })
 
 const router = express.Router();
@@ -43,8 +45,14 @@ router.post(
       stripeId: charge.id,
     });
     await payment.save();
+
+    await new PaymentCreatedPublisher(natsWrapper.client).publish({
+      orderId: payment.orderId,
+      id: payment.id,
+      stripeId: payment.stripeId
+    });
     
-    res.status(201).send({ success: true });
+    res.status(201).send({ id: payment.id });
   }
 );
 

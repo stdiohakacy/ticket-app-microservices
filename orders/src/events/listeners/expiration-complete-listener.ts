@@ -19,6 +19,10 @@ import {
       if (!order) {
         throw new Error('Order not found');
       }
+
+      if(order.status === OrderStatus.Completed) {
+        return msg.ack();
+      }
   
       order.set({
         status: OrderStatus.Cancelled,
