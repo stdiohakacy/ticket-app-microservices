@@ -5,6 +5,7 @@ import { app } from '../../app';
 import { Order } from '../../models/order';
 // import { stripe } from '../../stripe'
 import Stripe from 'stripe';
+import { Payment } from '../../models/payment';
 
 export const stripe = new Stripe(process.env.STRIPE_KEY!, {
   apiVersion: '2020-08-27',
@@ -91,8 +92,13 @@ it('returns a 201 with valid inputs', async () => {
   
     const stripeCharges = await stripe.charges.list({ limit: 50 });
     const stripeCharge = stripeCharges.data.find((charge) => charge.amount === price * 100);
-    console.log(stripeCharge);
     expect(stripeCharge).toBeDefined();
     expect(stripeCharge!.currency).toEqual('usd');
+
+    const payment = await Payment.findOne({
+      orderId: order.id,
+      stripeId: stripeCharge!.id,
+    });
+    expect(payment).not.toBeNull();
   });
   
