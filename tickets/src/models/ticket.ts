@@ -1,55 +1,58 @@
 import mongoose from 'mongoose';
 import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 
-interface ITicketAttrs {
-    title: string;
-    price: number;
-    userId: string;
+interface TicketAttrs {
+  title: string;
+  price: number;
+  userId: string;
 }
 
-interface ITicketDoc extends mongoose.Document {
-    title: string;
-    price: number;
-    userId: string;
-    version: number;
-    orderId?: string;
+interface TicketDoc extends mongoose.Document {
+  title: string;
+  price: number;
+  userId: string;
+  version: number;
+  orderId?: string;
 }
 
-interface ITicketModel extends mongoose.Model<ITicketDoc> {
-    build(attrs: ITicketAttrs): ITicketDoc;
+interface TicketModel extends mongoose.Model<TicketDoc> {
+  build(attrs: TicketAttrs): TicketDoc;
 }
 
-const ticketSchema = new mongoose.Schema({
+const ticketSchema = new mongoose.Schema(
+  {
     title: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     price: {
-        type: Number,
-        required: true,
+      type: Number,
+      required: true,
     },
     userId: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     orderId: {
       type: String,
     },
-},
-{
+  },
+  {
     toJSON: {
-        transform(doc, ret) {
-            ret.id = ret._id;
-            delete ret._id;
-        },
+      transform(doc, ret) {
+        ret.id = ret._id;
+        delete ret._id;
+      },
     },
-});
-
+  }
+);
 ticketSchema.set('versionKey', 'version');
 ticketSchema.plugin(updateIfCurrentPlugin);
 
-ticketSchema.statics.build = (attrs: ITicketAttrs) => new Ticket(attrs);
+ticketSchema.statics.build = (attrs: TicketAttrs) => {
+  return new Ticket(attrs);
+};
 
-const Ticket = mongoose.model<ITicketDoc, ITicketModel>('Ticket', ticketSchema);
+const Ticket = mongoose.model<TicketDoc, TicketModel>('Ticket', ticketSchema);
 
 export { Ticket };
