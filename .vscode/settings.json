@@ -1,0 +1,6 @@
+{
+    "editor.formatOnSave": true,
+    "yaml.format.singleQuote": false,
+    "prettier.singleQuote": true,
+    "editor.tabSize": 2
+}
