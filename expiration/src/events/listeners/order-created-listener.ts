@@ -13,7 +13,7 @@ export class OrderCreatedListener extends Listener<IOrderCreatedEvent> {
 
         await expirationQueue.add(
             { orderId: data.id},
-            // { delay }
+            { delay }
         );
 
         msg.ack();
