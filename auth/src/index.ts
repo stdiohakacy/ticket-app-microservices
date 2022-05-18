@@ -3,10 +3,10 @@ import { app } from './app';
 
 const start = async () => {
   console.log("Starting application ...");
-  if(!process.env.JWT_KEY) {
+  if (!process.env.JWT_KEY) {
     throw new Error('JWT KEY must be defined!');
   }
-  if(!process.env.MONGO_URI) {
+  if (!process.env.MONGO_URI) {
     throw new Error('MONGO_URI must be defined!');
   }
   try {
@@ -17,7 +17,7 @@ const start = async () => {
   }
 
   app.listen(3000, () => {
-    console.log("Listening on port 3000");
+    console.log("Listening on port 3000!");
   });
 }
 
