@@ -19,6 +19,7 @@ declare global {
 beforeAll(async () => {
     process.env.JWT_KEY = "secret_key"
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
+
     mongod = await MongoMemoryServer.create();
     const mongoUri = mongod.getUri();
     await mongoose.connect(mongoUri);
@@ -30,6 +31,11 @@ beforeEach(async () => {
         await collection.deleteMany({})
     }
 })
+
+afterAll(async () => {
+    await mongod.stop();
+    await mongoose.connection.close();
+});
 
 global.signIn = async () => {
     const email = "admin@gmail.com";
